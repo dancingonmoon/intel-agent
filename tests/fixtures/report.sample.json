@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "run_id": "20261111T0730-ru-tetra",
+  "report_date": "2026-11-11",
+  "headline_item_ids": ["it_0001", "it_0002", "it_0004"],
+  "sections": {
+    "contracts": [
+      {
+        "item_id": "it_0001",
+        "title_zh": "Росэл 量产升级版 TETRA 基站，面向能源与安全部门",
+        "summary_zh": "俄罗斯技术集团旗下的 Росэл 宣布升级版 TETRA 基站进入批量生产，目标用户为能源企业和执法机构。报道强调设备用于关键基础设施的专业移动通信。",
+        "why_it_matters": "俄乌冲突后进口替代加速，本土基站量产会挤压国外厂商在俄存量市场的替换空间。"
+      },
+      {
+        "item_id": "it_0007",
+        "title_zh": "摩尔多瓦警方接收 TETRA 通信设备",
+        "summary_zh": "当地警方称已接收一批用于扩展 TETRA 网络覆盖的设备。报道未披露供应商和合同金额。",
+        "why_it_matters": "周边国家的 TETRA 采购可能成为区域参考项目，但单一来源，需继续核实。"
+      }
+    ],
+    "industry": [
+      {
+        "item_id": "it_0004",
+        "title_zh": "俄罗斯行业玩家反对设立单一专业移动通信运营商",
+        "summary_zh": "俄罗斯 TETRA 市场参与者公开反对建立统一运营商，讨论集中在监管模式、频谱分配和现有网络资产处置。",
+        "why_it_matters": "若统一运营商方案推进，现有集成商和专网运营商的商业模式会被重塑。"
+      }
+    ],
+    "technology": [
+      {
+        "item_id": "it_0002",
+        "title_zh": "俄罗斯首款国产便携式 TETRA 电台投产",
+        "summary_zh": "Информтехника 开始生产便携式 TETRA 电台 МиниКом-АНР-3，面向企业和部门专网。报道将其定位为首款俄罗斯国产便携式 TETRA 终端。",
+        "why_it_matters": "终端环节的国产化是俄 TETRA 进口替代的关键缺口，后续需关注实际出货和型号认证。"
+      },
+      {
+        "item_id": "it_0003",
+        "title_zh": "Информтехника 发布 МиниКом-АНР-3",
+        "summary_zh": "同一事件的另一篇报道，补充了目标客户和本地化生产的说法。",
+        "why_it_matters": "与上一条合并看待，用于交叉验证国产化进度。"
+      },
+      {
+        "item_id": "it_0006",
+        "title_zh": "TETRA:BURST 漏洞研究再次引发关注",
+        "summary_zh": "安全研究者描述了针对 TETRA 设备的新攻击面，并讨论固件更新和密钥管理问题。",
+        "why_it_matters": "安全漏洞会影响采购方的合规评估，也可能推动设备更新周期。"
+      }
+    ],
+    "players": [
+      {
+        "item_id": "it_0005",
+        "title_zh": "Росэл 与圣彼得堡政府共建微电子产业集群",
+        "summary_zh": "双方签署协议，计划发展微电子生产和科研基础设施，TETRA 被列为相关方向之一。",
+        "why_it_matters": "显示 Росэл 正在向上游元器件和本地产业链延伸，长期影响其 TETRA 设备的成本与交付。"
+      }
+    ]
+  },
+  "watchlist": [
+    {
+      "cluster_id": "cl_0002",
+      "reason": "国产便携式 TETRA 终端刚投产，后续关注出货、认证和客户名单"
+    },
+    {
+      "cluster_id": "cl_0001",
+      "reason": "基站量产涉及能源与安全部门，可能有后续采购合同"
+    }
+  ],
+  "coverage": {
+    "ok": ["google_news_ru", "yandex", "telegram", "media_rss"],
+    "degraded": ["x"],
+    "failed": [],
+    "no_news_facets": []
+  }
+}

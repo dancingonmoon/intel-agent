@@ -1,0 +1,300 @@
+id: ru-tetra
+name: 俄罗斯专网通信（TETRA/DMR/PoC/PMR）
+timezone: Europe/Moscow
+languages: [ru, en]
+countries: [RU, BY, KZ]
+window:
+  kind: rolling
+  hours: 168
+  include_seen: true      # 7-day rolling report keeps items already seen on earlier days
+
+engines:
+  # GDELT is intentionally absent: the current proxy exit IP gets HTTP 429
+  # from api.gdeltproject.org. Add `gdelt` back when the exit IP is clean.
+  priority: [google_news_ru, brave, telegram, media_rss, bing_news, x, yandex]
+  per_engine_max_queries: 10
+  # Yandex News (yandex.ru/news -> dzen.ru/news) works after a manual login;
+  # web search is captcha-prone and no longer used.
+  yandex_mode: browser        # browser | off
+
+facets:
+  contracts:
+    label: 重大合同
+    strong: [контракт, тендер, закупк, поставк, договор, подряд, "contract", "tender", "award", "procurement", госзакупк, госконтракт, аукцион]
+    weak: [соглашени, проект, бюджет]
+  industry:
+    label: 行业动态
+    strong: [оператор, регулятор, "ФАС", "Минцифр", рынк, отрасл, диспетчер, экстренн, "силовые структуры", "МВД", "МЧС", "РЖД"]
+    weak: [ассоциац, конференц, форум, прогноз]
+  technology:
+    label: 技术发展
+    strong: [радиостанц, станци, терминал, "TETRA:BURST", стандарт, прошивк, шифрован, модернизац, транкинг, профессиональн, "DMR", "dPMR", "NXDN", "P25", "PoC", "PTT", "PMR", ретранслятор, абонентск, цифров]
+    weak: [разработк, испытани, сертификац]
+  players:
+    label: 主要玩家
+    # Company-level intent only. Entity names live in `entities`, not here,
+    # otherwise every article about a vendor becomes "players".
+    strong: [назначен, отставк, санкц, партнерств, приобрел, купил, дивиденд, выручк, прибыл, интервью]
+    weak: [компани, холдинг, концерн, выставк]
+
+entities:
+  required_any:
+    - TETRA
+    - ТЕТРА
+    - Тетрасвязь
+    - DMR
+    - dPMR
+    - NXDN
+    - P25
+    - "PoC-"
+    - "PoC "
+    - "PoC,"
+    - "PoC."
+    - PTT
+    - "Push-to-Talk"
+    - "Push to Talk"
+    - PMR
+    - "профессиональная мобильная радиосвязь"
+    - "профессиональная радиосвязь"
+    - "профессиональные радиостанции"
+    - транкинг
+    - "транкинговая связь"
+    - радиосвяз
+    - "рации для"
+    - "рация для"
+    - "раций для"
+    - "портативные рации"
+    - "носимые рации"
+    - "профессиональные рации"
+    - "рации связи"
+    - "рации стандарта"
+    - "диспетчерская связь"
+    - ретранслятор
+    - абонентск
+    - "частная сеть связи"
+    - "частная сеть"
+    - "частные сети"
+    - "private LTE"
+    - "pLTE"
+    - "Private 5G"
+    - ГКРЧ
+    - ГРЧЦ
+    - ЕРРРП
+    - TCCA
+    - MCX
+    - PMRExpo
+    - "critical communications"
+    - Hytera
+    - "Motorola Solutions"
+    - Sepura
+    - Airbus
+    - Kenwood
+    - Icom
+    - Tait
+    - Leonardo
+    - Rohill
+    - Caltta
+    - Kirisun
+    - Inrico
+    - "Гвардия-Плюс"
+    - Gvardiya-Plus
+    - "Муромский радиозавод"
+    - "Murom radio"
+    - "LEO Telecom"
+    - "Лео Телеком"
+    - "СТК"
+    - "СТЦ"
+    - "trunked radio"
+    - "two-way radio"
+  # Broad topic: require a topic term in the headline, but allow the specific
+  # standard/company name to appear in the snippet as well. This keeps generic
+  # upstream-electronics and foreign vendor pages out.
+  require_in_title: [TETRA, ТЕТРА, Тетрасвязь, DMR, dPMR, NXDN, P25, "PoC-", "PoC ", "PoC,", "PoC.", PTT, "Push-to-Talk", PMR, транкинг, радиосвяз, радиостанц, "рации для", "рация для", "раций для", "портативные рации", "носимые рации", "профессиональные рации", "рации связи", "рации стандарта", диспетчерск, ретранслятор, профессиональн, "pLTE", "Private LTE", "private LTE", "частные сети", "частная сеть", ГКРЧ, ГРЧЦ, ЕРРРП, TCCA, MCX, PMRExpo, "critical communications", Росэл, Радиал, Информтехника, МиниКом, Антэкс, Иртея, Булат, YADRO, Протей, Аргут, "Т-Хелпер", Hytera, "Вива-Телеком", "Сага Телеком", "НПП Радиосвязь", "Motorola Solutions", Sepura, Airbus, Kenwood, Icom, Tait, Leonardo, Rohill, Caltta, Kirisun, Inrico, "Гвардия-Плюс", Gvardiya-Plus, "Муромский радиозавод", "Murom radio", "LEO Telecom", "Лео Телеком", "СТК", "СТЦ"]
+  geo_any: [росси, рф, москва, санкт-петербург, петербург, ростех, росэл, тетрасвязь, гкрч, грчц, минцифры, роскомнадзор, еррп, беларусь, белорус, минск, казахстан, алматы, астана, russian, russia, belarus, kazakhstan]
+  boost: [Росэл, Радиал, Информтехника, МиниКом, Тетрасвязь, Антэкс, Иртея, Булат, YADRO, Протей, Аргут, "Т-Хелпер", Hytera, "Вива-Телеком", "Сага Телеком", "НПП Радиосвязь", TCCA, "Critical Communications Review", PMRExpo, "RCR Wireless", "Motorola Solutions", Sepura, Airbus, Kenwood, Icom, Tait, Leonardo, Rohill, Caltta, Kirisun, Inrico, "Гвардия-Плюс", Gvardiya-Plus, "Муромский радиозавод", "Murom radio", "LEO Telecom", "Лео Телеком", "СТК", "СТЦ"]
+  # Specialist sources whose articles are in scope even when the title omits
+  # "Russia" (global critical-comms bodies and vendor news pages).
+  source_any: [tcca.info, criticalcommunicationsreview.com, rcrwireless.com, pmrexpo.com, hytera-pro.ru, hytera.com, hytera.ru, leo.ru, stc-tomsk.ru, muromrz.com, minicom.ru, protei.ru, argut.net, irteya.ru, opk-bulat.ru, yadro.com, viva-telecom.org, sagatelecom.ru, trbonet.com, caltta.com, kirisun.com, inricosolutions.com, estalky.com]
+  # Used for Yandex News results whose title/snippet may omit the standard name.
+  # Keep these radio-specific: bare "terminal"/"network"/"radio" matches
+  # LNG terminals, transport networks and broadcast radio.
+  context_any: [радиостанц, "рации для", "рация для", "раций для", "портативные рации", "носимые рации", "профессиональные рации", "рации связи", "рации стандарта", транкинг, профессиональн, диспетчерск, ретранслятор, абонентск, частотн, PMR, TETRA, DMR, "poc-", "poc ", PTT, "plte", "private lte", "private 5g", "частные сети", "частная сеть", гкрч, еррп, tcca, mcx, pmrexpo, "critical communications", "базов станц", "base station", "tetra terminal", "radio network", "two-way radio", "walkie-talkie", "push-to-talk", "private lte"]
+  # Social posts must contain a real radio/communications term; a username like
+  # "Tetra" or "Tetra Pak" is not enough.
+  social_context_any: [радио, радиосвяз, радиостанц, рации, рация, раций, "рации для", "рация для", "раций для", "портативные рации", "носимые рации", "профессиональные рации", "рации связи", "рации стандарта", связ, терминал, базов, станц, транкинг, диспетчер, PMR, DMR, TETRA, "poc-", "poc ", PTT, "plte", "private lte", "частные сети", "частная сеть", гкрч, tcca, mcx, professional, radio, communication, network, terminal, walkie-talkie]
+
+exclude:
+  - "Tetra Pak"
+  - театр
+  - кресло
+  - "GTA"
+  - "TetraWars"
+  - "Сочи-2014"
+  # Broadcast / music radio is not PMR.
+  - "Европа Плюс"
+  - "Русское Радио"
+  - Авторадио
+  - "DFM"
+  - "Наше Радио"
+  - "Радио Маяк"
+  - "Вести FM"
+  - "Business FM"
+  - "Comedy Radio"
+  - "Like FM"
+  - "Ретро FM"
+  - "Юмор FM"
+  - "Радио Шансон"
+  - "Хит FM"
+  - "Love Radio"
+  - "Серебряный Дождь"
+  - радиоведущ
+  - вещательн
+  - "FM-диапазон"
+  - музыкальн
+  - игрушечн
+exclude_sources:
+  - wikipedia.org
+  - openpr.com
+  - 247newsagency.com
+  - fortunebusinessinsights.com
+  - verifiedmarketreports.com
+  - markwideresearch.com
+  - marketintelligencetools.com
+  - indexbox.io
+  - radial.ru/faq
+  - ru.firerepeater.com
+  - lenta.ru
+  - 433175.ru
+  - elnex.pl
+
+queries:
+  google_news:
+    ru:
+      - '"TETRA" радиосвязь'
+      - '"ТЕТРА" радиосвязь'
+      - '"DMR" радиосвязь'
+      - '"DMR-радиостанция"'
+      - '"PoC" радиосвязь'
+      - '"PoC-рация" OR "PoC-радиостанция"'
+      - '"транкинговая связь"'
+      - '"профессиональная радиосвязь"'
+      - '"профессиональные радиостанции"'
+      - '"рации для предприятий"'
+      - '"диспетчерская связь"'
+      - '"ретранслятор" радиосвязь'
+      - '"Тетрасвязь"'
+      - '"Росэл" радиосвязь'
+      - '"МиниКом" радиостанция'
+      - '"Информтехника" радиосвязь'
+      - '"Антэкс" радиостанция'
+      - '"PMR" Россия'
+      - '"PTT" радиосвязь'
+      - '"private LTE" Россия'
+      - '"ГКРЧ" радиосвязь'
+      - '"ЕРРРП" радиоэлектроника'
+      - '"частные сети" LTE'
+      - '"pLTE" Россия'
+      - '"Иртея" базовая станция'
+      - '"Булат" базовая станция'
+      - '"Hytera" DMR Россия'
+      - '"радиосвязь" тендер'
+      - '"закупка" радиостанции'
+      - '"Hytera" Россия'
+      - '"LEO Telecom" TETRA'
+      - '"СТК" Hytera'
+      - '"Муромский радиозавод"'
+      - '"Гвардия-Плюс"'
+      - '"Motorola" TETRA Россия'
+      - '"Sepura" Россия'
+      - '"Airbus" TETRA Россия'
+    en:
+      - '"TETRA" OR "DMR" Russia radio'
+      - '"professional mobile radio" Russia'
+      - '"push-to-talk" OR "PTT" Russia'
+      - '"trunked radio" Russia'
+      - '"TCCA" TETRA MCX'
+      - '"PMRExpo" 2026'
+      - '"Private LTE" Russia'
+      - '"Hytera" Russia DMR'
+      - '"Kirisun" OR "Caltta" OR "Inrico" Russia'
+      - '"critical communications" Russia'
+      - 'Hytera Russia distributor'
+      - 'LEO Telecom Russia TETRA'
+      - 'Murom radio plant'
+      - 'Gvardiya-Plus TETRA'
+  bing_news:
+    ru:
+      - '"TETRA" радиосвязь'
+      - '"DMR" радиосвязь'
+      - '"PoC" радиосвязь'
+      - '"транкинговая связь"'
+      - '"профессиональная радиосвязь"'
+      - '"рации для предприятий"'
+      - '"ГКРЧ" радиосвязь'
+      - '"частные сети" LTE'
+      - '"Иртея" базовая станция'
+      - '"Hytera" DMR Россия'
+      - '"LEO Telecom" TETRA'
+      - '"СТК" Hytera'
+      - '"Муромский радиозавод"'
+      - '"Гвардия-Плюс"'
+    en:
+      - '"TETRA" OR "DMR" Russia radio'
+      - '"PoC" OR "push-to-talk" Russia'
+      - '"TCCA" TETRA MCX'
+      - '"PMRExpo" 2026'
+      - '"Private LTE" Russia'
+      - 'Hytera Russia distributor'
+      - 'LEO Telecom Russia TETRA'
+  gdelt:
+    - 'TETRA sourcelang:russian'
+    - 'TETRA Russia sourcelang:english'
+  yandex:
+    ru:
+      - 'TETRA радиосвязь'
+      - 'DMR радиосвязь'
+      - 'PoC радиосвязь'
+      - 'транкинговая связь'
+      - 'профессиональная радиосвязь'
+      - 'ГКРЧ радиосвязь'
+      - 'частные сети LTE'
+      - 'Hytera DMR Россия'
+      - 'LEO Telecom TETRA'
+      - 'СТК Hytera'
+      - 'Муромский радиозавод'
+      - 'Гвардия-Плюс'
+  brave:
+    ru: ['"TETRA" радиосвязь Россия', '"DMR" радиосвязь Россия', '"PoC" радиосвязь Россия', '"транкинговая связь" Россия', '"профессиональная радиосвязь" Россия', '"рации для предприятий" Россия', '"ГКРЧ" радиосвязь Россия', '"частные сети" LTE Россия', '"pLTE" Россия', 'site:minicom.ru TETRA DMR', 'site:irteya.ru базовая станция', 'site:opk-bulat.ru базовая станция', 'site:yadro.com базовая станция', 'site:hytera-pro.ru DMR PoC', 'site:viva-telecom.org Hytera', 'site:leo.ru TETRA Hytera', 'site:stc-tomsk.ru Hytera', 'site:muromrz.com радиостанция', '"Гвардия-Плюс" TETRA', '"Муромский радиозавод"', '"LEO Telecom" TETRA', '"СТК" Hytera']
+    en: ['Russia TETRA DMR terminals', 'Russia professional mobile radio PMR', 'Russia PoC push-to-talk', 'Russia trunked radio', 'TCCA MCX critical communications', 'PMRExpo 2026', 'Private LTE Russia', 'site:rcrwireless.com critical communications', 'site:criticalcommunicationsreview.com PoC DMR TETRA', 'site:hytera.com Russia', 'Hytera Russia distributor', 'LEO Telecom Russia TETRA', 'Murom radio plant', 'Gvardiya-Plus TETRA']
+  x:
+    - 'Hytera'
+    - 'Hytera Russia'
+    - 'Hytera DMR'
+    - 'LEO Telecom'
+    - 'Murom radio'
+    - 'Gvardiya Plus'
+    - 'TETRA Russia'
+    - 'DMR Russia'
+    - 'Private LTE Russia'
+    - 'from:rcrwirelessnews TETRA'
+    - 'TCCA MCX'
+  # Public previews from the user's verified source list.
+  telegram_channels: [mintsifry, rkn_tg, grfc_ru, minpromtorg_ru, rccorg, garantnews, comnewsgroup, rspectr, rubezh_magazine, abloud62, telecommunal, tochka5g, zatelecom, radiochief_ru, VED_electronics, cnews]
+  rss:
+    - https://www.comnews.ru/rss
+    - https://www.cnews.ru/inc/rss/news.xml
+    - https://www.cnews.ru/inc/rss/biz.xml
+    - https://www.tadviser.ru/xml/tadviser.xml
+    - https://telesputnik.ru/rss
+    - https://nag.ru/rss/google
+    - https://habr.com/ru/rss/articles/
+    - https://habr.com/en/rss/articles/?fl=en
+    - https://www.ixbt.com/export/news/rss.xml
+    - https://rcrwireless.com/feed
+    - https://www.cableman.ru/rss.xml
+    - https://dprom.online/feed/
+    - http://site.muromrz.com/?feed=rss2
+    - https://www.vedomosti.ru/rss/news
+    - https://www.kommersant.ru/RSS/news.xml
+    # rostec.ru currently presents a self-signed TLS chain; add it back with a
+    # proper CA bundle rather than disabling verification.

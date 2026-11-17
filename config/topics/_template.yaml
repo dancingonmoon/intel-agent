@@ -1,0 +1,47 @@
+id: example-topic
+name: 示例主题
+timezone: UTC
+languages: [en]
+countries: [US]
+window:
+  kind: rolling
+  hours: 24
+
+engines:
+  priority: [google_news_en, brave, media_rss, x]
+  per_engine_max_queries: 6
+
+facets:
+  contracts:
+    label: 重大合同
+    strong: [contract, award, tender, procurement]
+    weak: [agreement, deal, project]
+  industry:
+    label: 行业动态
+    strong: [market, regulator, operator, industry]
+    weak: [association, conference, forecast]
+  technology:
+    label: 技术发展
+    strong: [technology, standard, product, launch]
+    weak: [upgrade, patent, research]
+  players:
+    label: 主要玩家
+    strong: [company-a, company-b]
+    weak: [appointment, partnership, earnings]
+
+entities:
+  required_any: [example-keyword]
+  geo_any: []
+  boost: []
+  context_any: []
+  social_context_any: []
+
+exclude: []
+
+queries:
+  google_news:
+    en: ['"example-keyword"']
+  x:
+    - 'example-keyword lang:en'
+  telegram_channels: []
+  rss: []

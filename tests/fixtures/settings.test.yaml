@@ -1,0 +1,9 @@
+paths:
+  reports_dir: /tmp/intel-reports-test
+  state_dir: /tmp/intel-state-test
+  cache_dir: /tmp/intel-cache-test
+
+x:
+  min_interval_seconds: 0
+yandex:
+  min_interval_seconds: 0

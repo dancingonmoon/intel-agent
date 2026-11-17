@@ -1,0 +1,6 @@
+[Unit]
+Description=Watchdog for intel-agent (%i)
+
+[Service]
+Type=oneshot
+ExecStart=__ROOT__/scripts/watchdog.sh %i

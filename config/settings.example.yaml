@@ -1,0 +1,81 @@
+# intel-agent runtime settings
+# 复制为 config/settings.yaml 后修改：
+#   cp config/settings.example.yaml config/settings.yaml
+# 含密钥的变量不要写进这个文件，放到环境变量或 ~/.config/intel-agent/env。
+
+proxy:
+  # 中国大陆访问 Google/Bing/Telegram 时通常需要本地代理。
+  # 例：socks5h://127.0.0.1:10808；留空表示直连。
+  url: ""
+
+paths:
+  reports_dir: ~/reports/intel
+  state_dir: ~/.local/state/intel-agent
+  cache_dir: ~/.cache/intel-agent
+
+http:
+  timeout_seconds: 25
+  retries: 2
+  user_agent: "intel-agent/0.1"
+
+browser:
+  # X/Twitter 与 Yandex News 需要已登录的普通 Chrome。
+  # mode: cdp 时先运行 scripts/start_chrome_cdp.sh。
+  mode: cdp
+  cdp_port: 9222
+  chrome_bin: /usr/bin/google-chrome
+  chrome_profile: ~/.local/state/intel-agent/chrome-profile
+  x_profile: ~/.local/state/intel-agent/x-profile
+  yandex_profile: ~/.local/state/intel-agent/yandex-profile
+
+x:
+  min_interval_seconds: 45
+  max_scrolls: 2
+
+yandex:
+  min_interval_seconds: 40
+  lr: "213"          # 213 = Moscow
+
+delivery:
+  local: true        # 始终写 Markdown 到 reports_dir
+  # local：只写本地；feishu：飞书优先，失败回退其他已启用通道；all：全部发送
+  primary: local
+  wechat:
+    enabled: false   # 个人微信需要 iLink/ClawBot 适配器，默认关闭
+    format: text     # text | pdf | html；默认不生成 PDF/HTML
+    max_chars: 1200
+    script: ""
+  email:
+    enabled: false
+    mode: smtp       # smtp | cli
+    host: smtp.example.com
+    port: 587
+    user: ""
+    password_env: SMTP_PASSWORD
+    tls: true
+    to: ""
+    subject_prefix: "[intel]"
+    cli: ""          # mode=cli 时才使用
+  feishu:
+    enabled: false
+    as: bot
+    open_id: ""      # 留空时从 lark-cli whoami 自动读取
+    recall_previous: true
+
+llm:
+  # auto = 优先 claude CLI，其次 ANTHROPIC_API_KEY，最后规则模板
+  provider: auto     # auto | claude-cli | anthropic | none
+  claude_bin: claude
+  model: ""          # anthropic 时可填 claude-sonnet-5-5 等
+  max_budget_usd: 0.30
+  max_tokens: 4096
+  timeout_seconds: 300
+  preflight_host: 127.0.0.1
+  preflight_port: 15721
+
+sources:
+  learning:
+    enabled: true
+    # false = 只给出 keep/watch/remove 和新增建议；true = 自动禁用弱源并加入已验证的新源
+    auto_apply: false
+    runs: 10

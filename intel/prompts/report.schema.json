@@ -1,0 +1,80 @@
+{
+  "title": "intel-agent daily report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "run_id", "report_date", "headline_item_ids", "sections", "watchlist", "coverage"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "run_id": { "type": "string" },
+    "report_date": { "type": "string" },
+    "headline_item_ids": {
+      "type": "array",
+      "maxItems": 5,
+      "items": { "type": "string" }
+    },
+    "title_en": {
+      "type": "object",
+      "additionalProperties": { "type": "string", "maxLength": 200 }
+    },
+    "sections": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["contracts", "industry", "technology", "players"],
+      "properties": {
+        "contracts": { "$ref": "#/$defs/entries" },
+        "industry": { "$ref": "#/$defs/entries" },
+        "technology": { "$ref": "#/$defs/entries" },
+        "players": { "$ref": "#/$defs/entries" }
+      }
+    },
+    "week_review": {
+      "type": "array",
+      "maxItems": 5,
+      "items": { "type": "string", "maxLength": 300 }
+    },
+    "watchlist": {
+      "type": "array",
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["cluster_id"],
+        "properties": {
+          "cluster_id": { "type": "string" },
+          "reason": { "type": "string", "maxLength": 200 }
+        }
+      }
+    },
+    "coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ok", "degraded", "failed", "no_news_facets"],
+      "properties": {
+        "ok": { "type": "array", "items": { "type": "string" } },
+        "degraded": { "type": "array", "items": { "type": "string" } },
+        "failed": { "type": "array", "items": { "type": "string" } },
+        "no_news_facets": {
+          "type": "array",
+          "items": { "enum": ["contracts", "industry", "technology", "players"] }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "entries": {
+      "type": "array",
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["item_id", "title_zh", "summary_zh"],
+        "properties": {
+          "item_id": { "type": "string" },
+          "title_zh": { "type": "string", "maxLength": 120 },
+          "summary_zh": { "type": "string", "maxLength": 500 },
+          "why_it_matters": { "type": "string", "maxLength": 200 }
+        }
+      }
+    }
+  }
+}

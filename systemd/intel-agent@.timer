@@ -1,0 +1,11 @@
+[Unit]
+Description=Run the daily industry intelligence agent
+
+[Timer]
+OnCalendar=*-*-* 07:30:00
+Persistent=true
+RandomizedDelaySec=5m
+Unit=intel-agent@%i.service
+
+[Install]
+WantedBy=timers.target

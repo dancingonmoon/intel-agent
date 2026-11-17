@@ -1,0 +1,10 @@
+[Unit]
+Description=Hourly watchdog for intel-agent (%i)
+
+[Timer]
+OnCalendar=hourly
+Persistent=true
+Unit=intel-agent-watchdog@%i.service
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "intel-agent"
+version = "0.1.0"
+description = "Topic-driven daily industry intelligence reports from RSS, Telegram, news search, X and Yandex News"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.12"
+authors = [{ name = "dancingonmoon" }]
+keywords = ["intelligence", "osint", "news", "rss", "telegram", "market-research"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.12",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: POSIX :: Linux",
+  "Topic :: Office/Business",
+]
+dependencies = [
+  "PyYAML>=6.0",
+  "requests>=2.31",
+  "beautifulsoup4>=4.12",
+  "lxml>=5.0",
+]
+
+[project.scripts]
+intel = "intel.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/dancingonmoon/intel-agent"
+Repository = "https://github.com/dancingonmoon/intel-agent"
+Issues = "https://github.com/dancingonmoon/intel-agent/issues"
+
+[tool.setuptools.packages.find]
+include = ["intel*"]
+
+[tool.setuptools.package-data]
+intel = ["prompts/*.json"]

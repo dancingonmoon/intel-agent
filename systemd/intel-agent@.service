@@ -1,0 +1,17 @@
+[Unit]
+Description=Daily industry intelligence agent (%i)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=__ROOT__
+EnvironmentFile=-__HOME__/.config/intel-agent/env
+ExecStartPre=-__ROOT__/scripts/start_chrome_cdp.sh
+ExecStart=/usr/bin/flock -n __HOME__/.local/state/intel-agent/run.lock __ROOT__/.venv/bin/python -m intel.cli run --topic %i
+TimeoutStartSec=45min
+SuccessExitStatus=0 2
+StateDirectory=intel-agent
+CacheDirectory=intel-agent
+Nice=10
+OnFailure=intel-agent-alert@%i.service

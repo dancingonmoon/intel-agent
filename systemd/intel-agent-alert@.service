@@ -1,0 +1,6 @@
+[Unit]
+Description=Alert on intel-agent failure (%i)
+
+[Service]
+Type=oneshot
+ExecStart=__ROOT__/scripts/alert.sh "intel-agent run failed: %i; see journalctl --user -u intel-agent@%i.service"

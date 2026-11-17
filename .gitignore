@@ -1,0 +1,33 @@
+# Local/personal configuration (contains open_id, emails, proxy, paths)
+config/settings.yaml
+config/topics/*.sources.yaml
+config/env
+
+# Environments
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.uv/
+
+# State, caches, reports
+reports/
+*.db
+*.sqlite
+*.sqlite3
+.cache/
+.local/
+
+# Editor/OS noise
+.DS_Store
+*.swp
+.idea/
+.vscode/
+
+# Test/coverage output
+.coverage
+htmlcov/
+.coverage.*

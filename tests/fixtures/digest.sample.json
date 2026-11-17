@@ -1,0 +1,231 @@
+{
+  "schema_version": 1,
+  "run_id": "20261111T0730-ru-tetra",
+  "topic": "ru-tetra",
+  "window": {
+    "start": "2026-11-10T02:30:00+03:00",
+    "end": "2026-11-11T02:30:00+03:00",
+    "tz": "Europe/Moscow",
+    "kind": "rolling"
+  },
+  "items": [
+    {
+      "item_id": "it_0001",
+      "cluster_id": "cl_0001",
+      "canonical_url": "https://example.com/fixture/rosel-base-stations",
+      "url_kind": "direct",
+      "title_original": "«Росэл» запустил серийное производство новых базовых станций для ТЭК и силовиков",
+      "lang": "ru",
+      "source": "Ростех",
+      "source_kind": "official",
+      "published_at": "2026-04-09T07:00:00+03:00",
+      "first_seen": "2026-04-09T08:10:00+03:00",
+      "snippet": "Холдинг «Росэл» Госкорпорации Ростех приступил к серийному производству обновлённой линейки оборудования профессиональной мобильной радиосвязи стандарта TETRA.",
+      "facets": {
+        "primary": "contracts",
+        "secondary": ["players", "technology"],
+        "confidence": "high",
+        "matched_terms": ["серийное производство", "базовые станции"]
+      },
+      "entities": ["Росэл", "Ростех"],
+      "corroboration_count": 4,
+      "matched_queries": ["\"Росэл\" TETRA"],
+      "found_by": ["google_news_ru", "yandex", "media_rss"]
+    },
+    {
+      "item_id": "it_0002",
+      "cluster_id": "cl_0002",
+      "canonical_url": "https://example.com/fixture/first-russian-portable-tetra",
+      "url_kind": "direct",
+      "title_original": "В России запущено производство первой отечественной портативной TETRA-радиостанции",
+      "lang": "ru",
+      "source": "Компьютерра",
+      "source_kind": "media",
+      "published_at": "2026-06-18T10:00:00+03:00",
+      "first_seen": "2026-06-18T10:20:00+03:00",
+      "snippet": "Российская компания «Информтехника» начала производство портативной TETRA-радиостанции «МиниКом-АНР-3».",
+      "facets": {
+        "primary": "technology",
+        "secondary": ["players"],
+        "confidence": "high",
+        "matched_terms": ["TETRA-радиостанция", "производство"]
+      },
+      "entities": ["Информтехника", "МиниКом"],
+      "corroboration_count": 3,
+      "matched_queries": ["\"TETRA-радиостанция\""],
+      "found_by": ["google_news_ru", "yandex"]
+    },
+    {
+      "item_id": "it_0003",
+      "cluster_id": "cl_0002",
+      "canonical_url": "https://example.com/fixture/informtekhnika-minikom-anr3",
+      "url_kind": "direct",
+      "title_original": "«Информтехника» выпустила первую российскую портативную TETRA-радиостанцию «МиниКом-АНР-3»",
+      "lang": "ru",
+      "source": "CNews",
+      "source_kind": "media",
+      "published_at": "2026-06-18T09:30:00+03:00",
+      "first_seen": "2026-06-18T09:45:00+03:00",
+      "snippet": "Устройство предназначено для корпоративных и ведомственных сетей связи; компания заявляет о локализации производства.",
+      "facets": {
+        "primary": "technology",
+        "secondary": ["players"],
+        "confidence": "high",
+        "matched_terms": ["TETRA-радиостанция"]
+      },
+      "entities": ["Информтехника", "МиниКом"],
+      "corroboration_count": 3,
+      "matched_queries": ["\"TETRA-радиостанция\""],
+      "found_by": ["google_news_ru"]
+    },
+    {
+      "item_id": "it_0004",
+      "cluster_id": "cl_0003",
+      "canonical_url": "https://example.com/fixture/tetra-rus-single-operator",
+      "url_kind": "direct",
+      "title_original": "К истокам TETRA Rus. Российские игроки рынка выступили против создания единого оператора профессиональной мобильной радиосвязи",
+      "lang": "ru",
+      "source": "ComNews",
+      "source_kind": "media",
+      "published_at": "2025-11-20T12:00:00+03:00",
+      "first_seen": "2025-11-20T12:30:00+03:00",
+      "snippet": "Участники рынка обсуждают регуляторную модель и возможные последствия создания единого оператора.",
+      "facets": {
+        "primary": "industry",
+        "secondary": [],
+        "confidence": "medium",
+        "matched_terms": ["единый оператор"]
+      },
+      "entities": [],
+      "corroboration_count": 2,
+      "matched_queries": ["\"единый оператор\" радиосвязь"],
+      "found_by": ["media_rss"]
+    },
+    {
+      "item_id": "it_0005",
+      "cluster_id": "cl_0004",
+      "canonical_url": "https://example.com/fixture/rosel-spb-cluster",
+      "url_kind": "direct",
+      "title_original": "«Росэл» и Правительство Санкт-Петербурга создадут научно-производственный кластер по развитию микроэлектроники",
+      "lang": "ru",
+      "source": "IT Channel News",
+      "source_kind": "media",
+      "published_at": "2026-06-03T18:00:00+03:00",
+      "first_seen": "2026-06-03T18:20:00+03:00",
+      "snippet": "Соглашение предусматривает развитие производственной и научной инфраструктуры; TETRA упоминается как одно из направлений.",
+      "facets": {
+        "primary": "players",
+        "secondary": ["industry"],
+        "confidence": "medium",
+        "matched_terms": ["Росэл"]
+      },
+      "entities": ["Росэл"],
+      "corroboration_count": 1,
+      "matched_queries": ["\"Росэл\" TETRA"],
+      "found_by": ["google_news_ru"]
+    },
+    {
+      "item_id": "it_0006",
+      "cluster_id": "cl_0005",
+      "canonical_url": "https://example.com/fixture/tetra-burst-returns",
+      "url_kind": "direct",
+      "title_original": "TETRA:BURST возвращается. Полицейские радиостанции снова уязвимы",
+      "lang": "ru",
+      "source": "Xakep.ru",
+      "source_kind": "media",
+      "published_at": "2025-08-19T09:00:00+03:00",
+      "first_seen": "2025-08-19T09:30:00+03:00",
+      "snippet": "Исследователи описали новую серию атак на TETRA-оборудование и вопросы обновления прошивок.",
+      "facets": {
+        "primary": "technology",
+        "secondary": [],
+        "confidence": "medium",
+        "matched_terms": ["TETRA:BURST"]
+      },
+      "entities": [],
+      "corroboration_count": 2,
+      "matched_queries": ["TETRA:BURST"],
+      "found_by": ["google_news_ru", "brave"]
+    },
+    {
+      "item_id": "it_0007",
+      "cluster_id": "cl_0006",
+      "canonical_url": "https://example.com/fixture/police-tetra-equipment",
+      "url_kind": "direct",
+      "title_original": "Полиция получила новое оборудование для развития системы радиосвязи TETRA",
+      "lang": "ru",
+      "source": "noi.md",
+      "source_kind": "media",
+      "published_at": "2026-10-05T11:00:00+03:00",
+      "first_seen": "2026-10-05T11:20:00+03:00",
+      "snippet": "Правоохранительные органы сообщили о поставке оборудования для расширения покрытия сети TETRA.",
+      "facets": {
+        "primary": "contracts",
+        "secondary": ["technology"],
+        "confidence": "medium",
+        "matched_terms": ["поставка", "оборудование"]
+      },
+      "entities": [],
+      "corroboration_count": 1,
+      "matched_queries": ["\"TETRA\" тендер"],
+      "found_by": ["google_news_ru"]
+    }
+  ],
+  "clusters": [
+    {
+      "cluster_id": "cl_0001",
+      "story_key": "https://example.com/fixture/rosel-base-stations",
+      "member_count": 4,
+      "first_seen": "2026-04-09T07:00:00+03:00",
+      "last_seen": "2026-04-13T08:49:00+03:00",
+      "update_hash": "a1"
+    },
+    {
+      "cluster_id": "cl_0002",
+      "story_key": "https://example.com/fixture/first-russian-portable-tetra",
+      "member_count": 3,
+      "first_seen": "2026-06-18T09:30:00+03:00",
+      "last_seen": "2026-06-18T10:00:00+03:00",
+      "update_hash": "a2"
+    },
+    {
+      "cluster_id": "cl_0003",
+      "story_key": "https://example.com/fixture/tetra-rus-single-operator",
+      "member_count": 2,
+      "first_seen": "2025-11-20T12:00:00+03:00",
+      "last_seen": "2025-11-20T12:00:00+03:00",
+      "update_hash": "a3"
+    },
+    {
+      "cluster_id": "cl_0004",
+      "story_key": "https://example.com/fixture/rosel-spb-cluster",
+      "member_count": 1,
+      "first_seen": "2026-06-03T18:00:00+03:00",
+      "last_seen": "2026-06-03T18:00:00+03:00",
+      "update_hash": "a4"
+    },
+    {
+      "cluster_id": "cl_0005",
+      "story_key": "https://example.com/fixture/tetra-burst-returns",
+      "member_count": 2,
+      "first_seen": "2025-08-19T09:00:00+03:00",
+      "last_seen": "2025-08-19T09:00:00+03:00",
+      "update_hash": "a5"
+    },
+    {
+      "cluster_id": "cl_0006",
+      "story_key": "https://example.com/fixture/police-tetra-equipment",
+      "member_count": 1,
+      "first_seen": "2026-10-05T11:00:00+03:00",
+      "last_seen": "2026-10-05T11:00:00+03:00",
+      "update_hash": "a6"
+    }
+  ],
+  "source_health": [
+    { "source": "google_news_ru", "ok": true, "count": 7, "http_status": 200, "duration_ms": 820 },
+    { "source": "yandex", "ok": true, "count": 2, "http_status": 200, "duration_ms": 2400 },
+    { "source": "telegram", "ok": true, "count": 3, "http_status": 200, "duration_ms": 600 },
+    { "source": "media_rss", "ok": true, "count": 2, "http_status": 200, "duration_ms": 1100 },
+    { "source": "x", "ok": false, "count": 0, "error": "login wall (fixture)" }
+  ]
+}
