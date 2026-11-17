@@ -103,6 +103,13 @@ def cmd_run(args: argparse.Namespace) -> int:
     glossary = load_glossary()
 
     digest = _load_digest(args, settings, topic)
+    digest_path = Path(settings["paths"]["state_dir"]) / "runs" / digest.run_id / "digest.json"
+    digest_path.parent.mkdir(parents=True, exist_ok=True)
+    digest_path.write_text(
+        json.dumps(dataclasses.asdict(digest), ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
+    print(f"digest written: {digest_path}")
     core_ok = sum(1 for health in digest.source_health if health.ok)
     if not digest.items and core_ok < 2:
         print(

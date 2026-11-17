@@ -76,6 +76,19 @@ class DeliveryRoutingTests(unittest.TestCase):
         wechat.assert_called_once()
         feishu.assert_called_once()
 
+    def test_feishu_headlines_have_no_cyrillic(self):
+        from intel.deliver import _headline_lines
+
+        item_id = self.report.headline_item_ids[0]
+        item = self.digest.items_by_id[item_id]
+        item.title_original = "Путин поздравил теннисистку Андрееву"
+        item.source = "Ведомости"
+        self.report.title_en.pop(item_id, None)
+        lines = _headline_lines(self.digest, self.report)
+        self.assertTrue(lines)
+        joined = "\n".join(lines)
+        self.assertNotRegex(joined, "[А-Яа-яЁё]")
+
 
 if __name__ == "__main__":
     unittest.main()

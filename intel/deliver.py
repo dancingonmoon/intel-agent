@@ -17,6 +17,7 @@ from email.message import EmailMessage
 from pathlib import Path
 
 from .contracts import FACET_LABELS, Digest, Report
+from .render import _display_title, _guard_display_text
 
 
 def local_path(settings: dict, topic_id: str, report_date: str) -> Path:
@@ -44,14 +45,15 @@ def _headline_lines(digest: Digest, report: Report, limit: int = 5) -> list[str]
     for item_id in report.headline_item_ids[:limit]:
         item = items.get(item_id)
         if item:
-            title = titles.get(item_id) or report.title_en.get(item_id) or item.title_original
-            lines.append(f"· {title}（{item.source}）")
+            title = titles.get(item_id) or _display_title(item, report)
+            lines.append(_guard_display_text(f"· {title}（{item.source}）"))
     if not lines:
         for facet in ("contracts", "industry", "technology", "players"):
             for entry in report.sections.get(facet, [])[:1]:
                 item = items.get(entry.item_id)
                 if item:
-                    lines.append(f"· {entry.title_zh or report.title_en.get(entry.item_id) or item.title_original}（{item.source}）")
+                    title = entry.title_zh or _display_title(item, report)
+                    lines.append(_guard_display_text(f"· {title}（{item.source}）"))
             if len(lines) >= limit:
                 break
     return lines

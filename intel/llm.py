@@ -367,7 +367,10 @@ def summarize(
     if not stdout:
         return build_fallback_report(digest, topic, week_items=week_items, reason="empty-llm-output"), "degraded:empty-llm-output"
     if proc.returncode != 0:
-        return build_fallback_report(digest, topic, week_items=week_items, reason=f"claude-exit-{proc.returncode}"), "degraded:claude-exit"
+        detail = (proc.stderr or "").strip() or stdout
+        detail = " ".join(detail.split())[:180]
+        reason = f"claude-exit-{proc.returncode}:{detail}" if detail else f"claude-exit-{proc.returncode}"
+        return build_fallback_report(digest, topic, week_items=week_items, reason=reason), "degraded:claude-exit"
 
     try:
         data = json.loads(stdout)

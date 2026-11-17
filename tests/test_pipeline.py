@@ -111,6 +111,23 @@ class RelevanceTests(unittest.TestCase):
         )
         self.assertFalse(is_relevant(item, self.topic))
 
+    def test_short_cyrillic_acronym_does_not_match_inside_words(self):
+        # "СТК" must match the company, not "теннисистку"/"постквантовая".
+        for title in (
+            "Путин поздравил теннисистку Андрееву с победой",
+            "Гибридная постквантовая криптография в мессенджере",
+        ):
+            item = article(title, "", source="Ведомости", kind="media")
+            self.assertFalse(is_relevant(item, self.topic), title)
+
+        item = article(
+            "СТК поставила Hytera для РЖД",
+            "Россия, DMR-радиостанции",
+            source="СТК",
+            kind="media",
+        )
+        self.assertTrue(is_relevant(item, self.topic))
+
     def test_aggregator_leniency_requires_specific_radio_context(self):
         item = article(
             "В контур российской мегакорпорации могут включить предприятие",

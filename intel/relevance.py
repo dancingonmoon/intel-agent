@@ -9,6 +9,9 @@ from .sources.base import Article
 
 _SPACE_RE = re.compile(r"\s+")
 _CYRILLIC_RE = re.compile(r"[А-Яа-яЁё]")
+# Short Cyrillic acronyms (СТК, СТЦ, ГКРЧ, ...) must match as whole words.
+# Plain substring search turns "теннисистку"/"постквантовая" into "СТК".
+_SHORT_CYR_ACRONYM_RE = re.compile(r"^[А-ЯЁ]{2,6}$")
 
 
 def normalize_text(value: str) -> str:
@@ -18,9 +21,15 @@ def normalize_text(value: str) -> str:
 
 def contains_term(text: str, term: str) -> bool:
     # Keep intentional leading/trailing spaces: "PoC " must not match "Pocket".
+    original = (term or "").strip()
     term = (term or "").lower().replace("ё", "е")
     term = _SPACE_RE.sub(" ", term)
-    return bool(term) and term in text
+    if not term:
+        return False
+    if _SHORT_CYR_ACRONYM_RE.match(original):
+        pattern = rf"(?<![а-яёa-z]){re.escape(term)}(?![а-яёa-z])"
+        return re.search(pattern, text) is not None
+    return term in text
 
 
 def is_excluded(article: Article, topic: dict) -> bool:
