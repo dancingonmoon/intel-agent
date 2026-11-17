@@ -128,6 +128,14 @@ class RelevanceTests(unittest.TestCase):
         )
         self.assertTrue(is_relevant(item, self.topic))
 
+    def test_latin_proper_names_do_not_match_inside_words(self):
+        from intel.relevance import contains_term
+
+        normalized = "protein production and minicomputer market"
+        self.assertFalse(contains_term(normalized, "Protei"))
+        self.assertFalse(contains_term(normalized, "Minicom"))
+        self.assertTrue(contains_term("pmrexpo 2026", "PMR"))
+
     def test_aggregator_leniency_requires_specific_radio_context(self):
         item = article(
             "В контур российской мегакорпорации могут включить предприятие",

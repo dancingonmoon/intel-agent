@@ -12,6 +12,10 @@ _CYRILLIC_RE = re.compile(r"[А-Яа-яЁё]")
 # Short Cyrillic acronyms (СТК, СТЦ, ГКРЧ, ...) must match as whole words.
 # Plain substring search turns "теннисистку"/"постквантовая" into "СТК".
 _SHORT_CYR_ACRONYM_RE = re.compile(r"^[А-ЯЁ]{2,6}$")
+# Mixed-case Latin proper names (Protei, Minicom) must not match inside
+# longer words such as "protein" or "minicomputer". All-caps acronyms such as
+# PMR still match inside PMRExpo, which is intentional.
+_LATIN_PROPER_RE = re.compile(r"^[A-Za-z][A-Za-z0-9]*$")
 
 
 def normalize_text(value: str) -> str:
@@ -28,6 +32,13 @@ def contains_term(text: str, term: str) -> bool:
         return False
     if _SHORT_CYR_ACRONYM_RE.match(original):
         pattern = rf"(?<![а-яёa-z]){re.escape(term)}(?![а-яёa-z])"
+        return re.search(pattern, text) is not None
+    if (
+        _LATIN_PROPER_RE.match(original)
+        and any(ch.isupper() for ch in original)
+        and not original.isupper()
+    ):
+        pattern = rf"(?<![a-z0-9]){re.escape(term)}(?![a-z0-9])"
         return re.search(pattern, text) is not None
     return term in text
 
