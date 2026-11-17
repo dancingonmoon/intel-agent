@@ -14,6 +14,10 @@ class FeishuCardTests(unittest.TestCase):
     def setUp(self):
         self.digest = Digest.from_dict(json.loads((FIXTURES / "digest.sample.json").read_text(encoding="utf-8")))
         self.report = Report.from_dict(json.loads((FIXTURES / "report.sample.json").read_text(encoding="utf-8")))
+        # CI has no lark-cli; individual tests mock the command runner.
+        patcher = patch("intel.feishu.available", return_value=True)
+        patcher.start()
+        self.addCleanup(patcher.stop)
 
     def test_card_has_counts_headlines_and_open_url_button(self):
         card = build_card(
