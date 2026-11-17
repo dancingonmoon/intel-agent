@@ -42,11 +42,17 @@ git clone https://github.com/dancingonmoon/intel-agent.git
 cd intel-agent
 
 python3.12 -m venv .venv
-.venv/bin/pip install -e .
+source .venv/bin/activate
+pip install -e .
 
 # 生成个人配置（不会进 Git）
 intel init
 ```
+
+请从 Git 仓库克隆后安装。程序读取仓库内的 `config/`，`intel source add`
+等命令也把本地信源写回仓库内的 overlay 文件，因此可编辑安装最省事。
+如果使用 `uv`，可用 `uv venv --system-site-packages` 和
+`uv pip install -e .` 代替。
 
 如果 `intel` 不在 PATH，使用：
 

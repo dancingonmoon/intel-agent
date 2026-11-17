@@ -34,7 +34,8 @@ Chrome with remote debugging (optional).
 git clone https://github.com/dancingonmoon/intel-agent.git
 cd intel-agent
 python3.12 -m venv .venv
-.venv/bin/pip install -e .
+source .venv/bin/activate
+pip install -e .
 
 intel init                 # creates config/settings.yaml from the example
 $EDITOR config/settings.yaml
@@ -43,6 +44,11 @@ $EDITOR config/topics/ru-tetra.yaml
 intel doctor
 intel run --topic ru-tetra
 ```
+
+Install from a clone. The app reads `config/` and writes `config/*.sources.yaml`
+in the checkout, so an editable install keeps topics and local overlays
+together. If you use `uv`, `uv venv --system-site-packages` and
+`uv pip install -e .` are equivalent.
 
 `intel init` writes `config/settings.yaml` (gitignored) and an empty
 `config/topics/ru-tetra.sources.yaml` overlay. The report is written to
@@ -60,6 +66,7 @@ intel run --topic ru-tetra
 | `intel source test --telegram <channel>` | fetch a Telegram public preview |
 | `intel source add --topic <id> --rss <url>` | validate and add to the overlay |
 | `intel source disable --topic <id> --source <id>` | disable a source |
+| `intel source enable --topic <id> --source <id>` | re-enable a disabled source |
 | `intel source list --topic <id>` | list configured/disabled sources |
 | `intel source audit --topic <id>` | keep/watch/remove score table |
 | `intel source suggest --topic <id>` | suggest feeds cited by selected items |
