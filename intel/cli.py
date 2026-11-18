@@ -14,7 +14,7 @@ from . import __version__
 from .config import CONFIG_DIR, TOPICS_DIR, ensure_dirs, load_glossary, load_settings, load_topic
 from .contracts import Digest, Report, validate_report_data
 from .deep_research import DEFAULT_WINDOW_HOURS, run as deep_research_run
-from .deliver import deliver
+from .sources import agent_browser
 from .doctor import render_checks, run_checks
 from .learning import (
     add_sources,
@@ -101,6 +101,10 @@ def cmd_run(args: argparse.Namespace) -> int:
     topic = load_topic(args.topic, Path(args.topic_config) if args.topic_config else None)
     ensure_dirs(settings)
     glossary = load_glossary()
+    if not args.digest and not getattr(args, "fake", False):
+        cdp_ok, cdp_detail = agent_browser.ensure_cdp(settings)
+        if not cdp_ok:
+            print(f"warning: {cdp_detail}", file=sys.stderr)
 
     digest = _load_digest(args, settings, topic)
     digest_path = Path(settings["paths"]["state_dir"]) / "runs" / digest.run_id / "digest.json"
@@ -260,6 +264,9 @@ def cmd_collect(args: argparse.Namespace) -> int:
     settings = load_settings(Path(args.settings) if args.settings else None)
     topic = load_topic(args.topic, Path(args.topic_config) if args.topic_config else None)
     ensure_dirs(settings)
+    cdp_ok, cdp_detail = agent_browser.ensure_cdp(settings)
+    if not cdp_ok:
+        print(f"warning: {cdp_detail}", file=sys.stderr)
     digest = collect(topic, settings, window_hours=args.window_hours or None)
     if args.out:
         out = Path(args.out)

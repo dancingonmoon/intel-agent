@@ -131,6 +131,48 @@ def cdp_reachable(port: int | None = None) -> bool:
         return False
 
 
+def ensure_cdp(settings: dict) -> tuple[bool, str]:
+    """Start the dedicated Chrome CDP profile when it is not running.
+
+    Manual `intel run` should not require a separate shell command. The
+    systemd unit still has its own ExecStartPre, so this is idempotent.
+    """
+    configure(settings)
+    if not cdp_mode():
+        return True, "browser.mode is not cdp"
+    if cdp_reachable():
+        return True, f"CDP already reachable on {cdp_port()}"
+
+    root = Path(__file__).resolve().parents[2]
+    script = root / "scripts" / "start_chrome_cdp.sh"
+    if not script.exists():
+        return False, f"CDP port {cdp_port()} is down and {script} is missing"
+
+    browser = settings.get("browser", {})
+    env = os.environ.copy()
+    env["CDP_PORT"] = str(cdp_port())
+    env["CHROME_PROFILE"] = str(Path(str(browser.get("chrome_profile", "~/.local/state/intel-agent/chrome-profile"))).expanduser())
+    if browser.get("chrome_bin"):
+        env["CHROME_BIN"] = str(browser["chrome_bin"])
+    proxy = proxy_url()
+    if proxy:
+        env["CHROME_PROXY"] = proxy
+    try:
+        proc = subprocess.run(
+            [str(script)],
+            env=env,
+            capture_output=True,
+            text=True,
+            timeout=45,
+        )
+    except (OSError, subprocess.SubprocessError) as exc:
+        return False, f"could not start Chrome CDP: {exc}"
+    if cdp_reachable():
+        return True, f"started Chrome CDP on {cdp_port()}"
+    detail = (proc.stderr or proc.stdout or "").strip()
+    return False, f"Chrome CDP did not start: {detail[:200]}"
+
+
 def proxy_url() -> str:
     url = os.environ.get("AGENT_BROWSER_PROXY") or _DEFAULT_PROXY
     if url.startswith("socks5h://"):
