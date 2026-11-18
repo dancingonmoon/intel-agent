@@ -335,7 +335,7 @@ queries:
     - 'from:rcrwirelessnews TETRA'
     - 'TCCA MCX'
   # Public previews from the user's verified source list.
-  telegram_channels: [mintsifry, rkn_tg, grfc_ru, minpromtorg_ru, rccorg, garantnews, comnewsgroup, rspectr, rubezh_magazine, abloud62, telecommunal, tochka5g, zatelecom, radiochief_ru, VED_electronics, cnews]
+  telegram_channels: [mintsifry, rkn_tg, grfc_ru, minpromtorg_ru, rccorg, garantnews, comnewsgroup, rspectr, rubezh_magazine, abloud62, telecommunal, tochka5g, zatelecom, radiochief_ru, VED_electronics, comnews_conferences]
   rss:
     - https://www.comnews.ru/rss
     - https://www.cnews.ru/inc/rss/news.xml

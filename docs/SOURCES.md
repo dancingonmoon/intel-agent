@@ -45,6 +45,11 @@ keep their trailing space so they do not match `Pocket`.
 
 ## 3. Where sources are declared
 
+Sources are **topic-local**. A new topic gets its own file and does not inherit
+another topic's queries, feeds or Telegram channels. Shared outlets (for
+example ComNews) must be added to each topic that needs them; this keeps the
+relevance rules and exclusions independent.
+
 - `config/topics/<id>.yaml` — curated base. Keep it generic and publishable.
 - `config/topics/<id>.sources.yaml` — local overlay (gitignored). Written by
   `intel source add/disable/enable/learn`.
