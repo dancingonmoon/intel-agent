@@ -263,6 +263,7 @@ queries:
       - 'T-Helper Hytera Russia'
       - 'Minicom TETRA Russia'
       - 'Protei Private LTE Russia'
+      - 'site:criticalcommunicationsreview.com TETRA DMR PoC'
   bing_news:
     ru:
       - '"TETRA" радиосвязь'
@@ -302,6 +303,7 @@ queries:
       - 'LabICS 5G Russia'
       - 'T-Helper Hytera Russia'
       - 'Protei Private LTE Russia'
+      - 'site:criticalcommunicationsreview.com TETRA DMR PoC'
   gdelt:
     - 'TETRA sourcelang:russian'
     - 'TETRA Russia sourcelang:english'
