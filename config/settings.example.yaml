@@ -67,7 +67,7 @@ llm:
   provider: auto     # auto | claude-cli | anthropic | none
   claude_bin: claude
   model: ""          # anthropic 时可填 claude-sonnet-5-5 等
-  max_budget_usd: 0.30
+  max_budget_usd: 1.00
   max_tokens: 4096
   timeout_seconds: 300
   preflight_host: 127.0.0.1

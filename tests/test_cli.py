@@ -4,6 +4,13 @@ from intel.cli import _week_row_relevant, _week_rows
 from intel.config import load_topic
 
 
+class CliWiringTests(unittest.TestCase):
+    def test_deliver_is_imported(self):
+        from intel import cli
+
+        self.assertTrue(callable(cli.deliver))
+
+
 class WeekRowsTests(unittest.TestCase):
     def test_prefers_fresh_items(self):
         rows = [{"canonical_url": "a"}, {"canonical_url": "b"}]

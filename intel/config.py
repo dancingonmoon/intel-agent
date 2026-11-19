@@ -76,7 +76,7 @@ DEFAULT_SETTINGS: dict[str, Any] = {
         "provider": "auto",
         "claude_bin": "claude",
         "model": "",
-        "max_budget_usd": 0.30,
+        "max_budget_usd": 1.00,
         "max_tokens": 4096,
         "timeout_seconds": 300,
         "preflight_host": "127.0.0.1",

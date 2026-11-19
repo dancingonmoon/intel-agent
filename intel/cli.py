@@ -14,6 +14,7 @@ from . import __version__
 from .config import CONFIG_DIR, TOPICS_DIR, ensure_dirs, load_glossary, load_settings, load_topic
 from .contracts import Digest, Report, validate_report_data
 from .deep_research import DEFAULT_WINDOW_HOURS, run as deep_research_run
+from .deliver import deliver
 from .sources import agent_browser
 from .doctor import render_checks, run_checks
 from .learning import (
