@@ -5,7 +5,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 from intel.contracts import Digest, Report
-from intel.feishu import build_card, send_card
+from intel.feishu import build_card, recall_previous, send_card
 
 FIXTURES = Path(__file__).resolve().parent / "fixtures"
 
@@ -119,6 +119,19 @@ class FeishuCardTests(unittest.TestCase):
         self.assertEqual(run.call_count, 2)
         fallback_cmd = run.call_args_list[1].args[0]
         self.assertIn("--markdown", fallback_cmd)
+
+    def test_expired_card_is_dropped_from_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            state_path = Path(tmp) / "cards.json"
+            state_path.write_text(json.dumps({"ru-tetra": ["om_old"]}), encoding="utf-8")
+            with patch("intel.feishu.STATE_PATH", state_path), patch(
+                "intel.feishu._run",
+                return_value=(False, {"error": {"code": 230009, "message": "Message has expired"}}),
+            ):
+                results = recall_previous("ru-tetra", "om_new")
+            self.assertFalse(results[0]["ok"])
+            state = json.loads(state_path.read_text(encoding="utf-8"))
+            self.assertEqual(state["ru-tetra"], ["om_new"])
 
 
 if __name__ == "__main__":

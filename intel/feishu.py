@@ -92,6 +92,10 @@ def recall_previous(topic_id: str, keep_id: str, as_identity: str = "bot") -> li
         ok, output = recall(message_id, as_identity)
         results.append({"message_id": message_id, "ok": ok, "output": output})
         if not ok:
+            # Feishu refuses recalls after its retention window (230009).
+            # Retrying an expired ID forever would keep it in the state file.
+            if "expired" in output.lower() or "230009" in output:
+                continue
             failed.append(message_id)
     # Keep the new card plus any failed recalls so the next run can retry.
     state[topic_id] = ([keep_id] if keep_id else []) + failed
