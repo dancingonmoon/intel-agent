@@ -9,7 +9,7 @@ from pathlib import Path
 
 from .contracts import Cluster, Digest, Facets, Item, SourceHealth, Window
 from .dedupe import best_member, canonicalize_url, group_articles
-from .relevance import classify, detect_lang, is_relevant
+from .relevance import classify, contains_term, detect_lang, is_relevant
 from .sources import brave as brave_source
 from .sources import rss, telegram
 from .sources.base import Article, SourceResult
@@ -218,6 +218,9 @@ def _build_digest(
         chosen = best_member(group)
         canonical = canonicalize_url(chosen.url)
         primary, secondary, confidence, matched_terms = classify(chosen, topic)
+        focus_terms = topic.get("entities", {}).get("focus", [])
+        focus_text = (chosen.title + " " + chosen.snippet).lower().replace("ё", "е")
+        focus_hits = [str(term) for term in focus_terms if contains_term(focus_text, str(term))][:6]
         first_seen = seen.get(canonical, now)
 
         items.append(
@@ -239,7 +242,7 @@ def _build_digest(
                     confidence=confidence,
                     matched_terms=matched_terms,
                 ),
-                entities=[],
+                entities=focus_hits,
                 corroboration_count=len(group),
                 matched_queries=sorted({a.query for a in group if a.query}),
                 found_by=sorted(
