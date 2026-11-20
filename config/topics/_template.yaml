@@ -33,6 +33,9 @@ entities:
   required_any: [example-keyword]
   geo_any: []
   boost: []
+  # Competitor watch list. The report must surface these players' technology,
+  # products, contracts and marketing whenever the digest contains them.
+  focus: []
   context_any: []
   social_context_any: []
 

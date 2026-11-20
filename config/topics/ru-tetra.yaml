@@ -134,6 +134,9 @@ entities:
   require_in_title: [TETRA, ТЕТРА, Тетрасвязь, DMR, dPMR, NXDN, P25, "PoC-", "PoC ", "PoC,", "PoC.", PTT, "Push-to-Talk", PMR, транкинг, радиосвяз, радиостанц, "рации для", "рация для", "раций для", "портативные рации", "носимые рации", "профессиональные рации", "рации связи", "рации стандарта", диспетчерск, ретранслятор, профессиональн, "pLTE", "Private LTE", "private LTE", "частные сети", "частная сеть", ГКРЧ, ГРЧЦ, ЕРРРП, TCCA, MCX, PMRExpo, "critical communications", Росэл, Радиал, Информтехника, МиниКом, Антэкс, Иртея, Булат, YADRO, Протей, Аргут, "Т-Хелпер", Hytera, "Вива-Телеком", "Сага Телеком", "НПП Радиосвязь", "Motorola Solutions", Sepura, Airbus, Kenwood, Icom, Tait, Leonardo, Rohill, Caltta, Kirisun, Inrico, "Гвардия-Плюс", Gvardiya-Plus, "Муромский радиозавод", "Murom radio", "LEO Telecom", "Лео Телеком", "СТК", "СТЦ", "Лаборатория радиосвязи", RCLab, "СОФТАЙМ", Softime, "РАДИОС LTE", Телкор, Telcore, Триалинк, Trialink, "РОНЕТ", Ronet, "Лаборатория инфокоммуникационных сетей", LabICS, Инвейв, InWave, Неоком, Neocom, Minicom, Protei]
   geo_any: [росси, рф, москва, санкт-петербург, петербург, ростех, росэл, тетрасвязь, гкрч, грчц, минцифры, роскомнадзор, еррп, беларусь, белорус, минск, казахстан, алматы, астана, russian, russia, belarus, kazakhstan]
   boost: [Росэл, Радиал, Информтехника, МиниКом, Тетрасвязь, Антэкс, Иртея, Булат, YADRO, Протей, Аргут, "Т-Хелпер", Hytera, "Вива-Телеком", "Сага Телеком", "НПП Радиосвязь", TCCA, "Critical Communications Review", PMRExpo, "RCR Wireless", "Motorola Solutions", Sepura, Airbus, Kenwood, Icom, Tait, Leonardo, Rohill, Caltta, Kirisun, Inrico, "Гвардия-Плюс", Gvardiya-Plus, "Муромский радиозавод", "Murom radio", "LEO Telecom", "Лео Телеком", "СТК", "СТЦ", "Лаборатория радиосвязи", RCLab, "СОФТАЙМ", Softime, "РАДИОС LTE", Телкор, Telcore, Триалинк, Trialink, "РОНЕТ", Ronet, "Лаборатория инфокоммуникационных сетей", LabICS, Инвейв, InWave, Неоком, Neocom, Minicom, Protei]
+  # Competitor watch list: the report must surface these players' technology,
+  # products, contracts and marketing whenever the digest contains them.
+  focus: [Hytera, 海能达, "RCLab", "Лаборатория радиосвязи", "Trialink", "Триалинк", "Ronet", "РОНЕТ", "STC", "СТК", "LEO Telecom", "Лео Телеком", "Муромский радиозавод", "Murom radio", "Гвардия-Плюс", "Gvardiya-Plus", "Softime", "СОФТАЙМ", "Telcore", "Телкор", "LabICS", "InWave", "Инвейв", "T-Helper", "Т-Хелпер", "Neocom", "Неоком", "Minicom", "МиниКом", "Protei", "Протей"]
   # Specialist sources whose articles are in scope even when the title omits
   # "Russia" (global critical-comms bodies and vendor news pages).
   source_any: [tcca.info, criticalcommunicationsreview.com, rcrwireless.com, pmrexpo.com, hytera-pro.ru, hytera.com, hytera.ru, leo.ru, stc-tomsk.ru, muromrz.com, minicom.ru, protei.ru, argut.net, irteya.ru, opk-bulat.ru, yadro.com, viva-telecom.org, sagatelecom.ru, trbonet.com, caltta.com, kirisun.com, inricosolutions.com, estalky.com, rclab.ru, softime.ru, tel-core.ru, trialink.ru, ronet.one, labics.ru, inwave.ru, t-helper.ru, neocomspd.ru, minicom-tetra.ru]
@@ -239,6 +242,12 @@ queries:
       - '"Т-Хелпер" Hytera'
       - '"МиниКом" TETRA'
       - '"Protei" "Private LTE"'
+      - '"Hytera" PAMR'
+      - '"Hytera" контракт'
+      - '"Hytera" дистрибьютор'
+      - '"Hytera" выставка'
+      - '"Hytera" маркетинг'
+      - '"Hytera" реклама'
     en:
       - '"TETRA" OR "DMR" Russia radio'
       - '"professional mobile radio" Russia'
@@ -263,6 +272,10 @@ queries:
       - 'T-Helper Hytera Russia'
       - 'Minicom TETRA Russia'
       - 'Protei Private LTE Russia'
+      - 'Hytera PAMR PoC'
+      - 'Hytera contract award'
+      - 'Hytera channel partner Russia'
+      - 'Hytera exhibition Russia'
       - 'site:criticalcommunicationsreview.com TETRA DMR PoC'
   bing_news:
     ru:
@@ -289,6 +302,12 @@ queries:
       - '"Т-Хелпер" Hytera'
       - '"МиниКом" TETRA'
       - '"Protei" "Private LTE"'
+      - '"Hytera" PAMR'
+      - '"Hytera" контракт'
+      - '"Hytera" дистрибьютор'
+      - '"Hytera" выставка'
+      - '"Hytera" маркетинг'
+      - '"Hytera" реклама'
     en:
       - '"TETRA" OR "DMR" Russia radio'
       - '"PoC" OR "push-to-talk" Russia'
@@ -303,6 +322,10 @@ queries:
       - 'LabICS 5G Russia'
       - 'T-Helper Hytera Russia'
       - 'Protei Private LTE Russia'
+      - 'Hytera PAMR PoC'
+      - 'Hytera contract award'
+      - 'Hytera channel partner Russia'
+      - 'Hytera exhibition Russia'
       - 'site:criticalcommunicationsreview.com TETRA DMR PoC'
   gdelt:
     - 'TETRA sourcelang:russian'
@@ -322,12 +345,15 @@ queries:
       - 'Муромский радиозавод'
       - 'Гвардия-Плюс'
   brave:
-    ru: ['"TETRA" радиосвязь Россия', '"DMR" радиосвязь Россия', '"PoC" радиосвязь Россия', '"транкинговая связь" Россия', '"профессиональная радиосвязь" Россия', '"рации для предприятий" Россия', '"ГКРЧ" радиосвязь Россия', '"частные сети" LTE Россия', '"pLTE" Россия', 'site:minicom.ru TETRA DMR', 'site:minicom-tetra.ru TETRA', 'site:irteya.ru базовая станция', 'site:opk-bulat.ru базовая станция', 'site:yadro.com базовая станция', 'site:hytera-pro.ru DMR PoC', 'site:viva-telecom.org Hytera', 'site:leo.ru TETRA Hytera', 'site:stc-tomsk.ru Hytera', 'site:muromrz.com радиостанция', 'site:rclab.ru радиосвязь', 'site:softime.ru "РАДИОС LTE"', 'site:tel-core.ru связь', 'site:trialink.ru радиосвязь', 'site:ronet.one радиосвязь', 'site:labics.ru сети связи', 'site:inwave.ru радио', 'site:t-helper.ru TETRA Hytera', 'site:protei.ru "Private LTE"', '"Гвардия-Плюс" TETRA', '"Муромский радиозавод"', '"LEO Telecom" TETRA', '"СТК" Hytera', '"Лаборатория радиосвязи"', '"Триалинк"', '"РОНЕТ" радиосвязь']
-    en: ['Russia TETRA DMR terminals', 'Russia professional mobile radio PMR', 'Russia PoC push-to-talk', 'Russia trunked radio', 'TCCA MCX critical communications', 'PMRExpo 2026', 'Private LTE Russia', 'site:rcrwireless.com critical communications', 'site:criticalcommunicationsreview.com PoC DMR TETRA', 'site:hytera.com Russia', 'Hytera Russia distributor', 'LEO Telecom Russia TETRA', 'Murom radio plant', 'Gvardiya-Plus TETRA', 'site:rclab.ru railway radio', 'site:softime.ru RADIOS LTE', 'site:tel-core.ru telecom', 'site:trialink.ru critical communications', 'site:ronet.one radio', 'site:labics.ru 5G', 'site:inwave.ru radio', 'site:t-helper.ru Hytera TETRA', 'site:protei.ru Private LTE', 'RCLab railway radio', 'Trialink Russia radio', 'LabICS Russia 5G', 'Protei Private LTE']
+    ru: ['"TETRA" радиосвязь Россия', '"DMR" радиосвязь Россия', '"PoC" радиосвязь Россия', '"транкинговая связь" Россия', '"профессиональная радиосвязь" Россия', '"рации для предприятий" Россия', '"ГКРЧ" радиосвязь Россия', '"частные сети" LTE Россия', '"pLTE" Россия', 'site:minicom.ru TETRA DMR', 'site:minicom-tetra.ru TETRA', 'site:irteya.ru базовая станция', 'site:opk-bulat.ru базовая станция', 'site:yadro.com базовая станция', 'site:hytera-pro.ru DMR PoC', 'site:viva-telecom.org Hytera', 'site:leo.ru TETRA Hytera', 'site:stc-tomsk.ru Hytera', 'site:muromrz.com радиостанция', 'site:rclab.ru радиосвязь', 'site:softime.ru "РАДИОС LTE"', 'site:tel-core.ru связь', 'site:trialink.ru радиосвязь', 'site:ronet.one радиосвязь', 'site:labics.ru сети связи', 'site:inwave.ru радио', 'site:t-helper.ru TETRA Hytera', 'site:protei.ru "Private LTE"', '"Гвардия-Плюс" TETRA', '"Муромский радиозавод"', '"LEO Telecom" TETRA', '"СТК" Hytera', '"Лаборатория радиосвязи"', '"Триалинк"', '"РОНЕТ" радиосвязь', 'site:hytera.com/eu critical communications', 'site:hytera.com Hytera Russia', 'site:hytera-pro.ru Hytera', 'site:leo.ru Hytera', 'site:t-helper.ru Hytera', 'site:minicom-tetra.ru Hytera', 'site:vk.com/hytera', 'Hytera Russia marketing']
+    en: ['Russia TETRA DMR terminals', 'Russia professional mobile radio PMR', 'Russia PoC push-to-talk', 'Russia trunked radio', 'TCCA MCX critical communications', 'PMRExpo 2026', 'Private LTE Russia', 'site:rcrwireless.com critical communications', 'site:criticalcommunicationsreview.com PoC DMR TETRA', 'site:hytera.com Russia', 'Hytera Russia distributor', 'LEO Telecom Russia TETRA', 'Murom radio plant', 'Gvardiya-Plus TETRA', 'site:rclab.ru railway radio', 'site:softime.ru RADIOS LTE', 'site:tel-core.ru telecom', 'site:trialink.ru critical communications', 'site:ronet.one radio', 'site:labics.ru 5G', 'site:inwave.ru radio', 'site:t-helper.ru Hytera TETRA', 'site:protei.ru Private LTE', 'RCLab railway radio', 'Trialink Russia radio', 'LabICS Russia 5G', 'Protei Private LTE', 'site:hytera.com/eu critical communications', 'site:hytera.com Hytera Russia', 'site:hytera-pro.ru Hytera', 'site:leo.ru Hytera', 'site:t-helper.ru Hytera', 'site:minicom-tetra.ru Hytera', 'Hytera Russia marketing']
   x:
     - 'Hytera'
     - 'Hytera Russia'
     - 'Hytera DMR'
+    - 'Hytera PAMR'
+    - 'Hytera contract'
+    - 'Hytera distributor'
     - 'LEO Telecom'
     - 'Murom radio'
     - 'Gvardiya Plus'

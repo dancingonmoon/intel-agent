@@ -29,6 +29,7 @@ from .learning import (
     test_rss,
     test_telegram,
 )
+from .progress import Progress
 from .llm import summarize
 from .pipeline import PipelineNotReady, collect, load_digest
 from .relevance import is_relevant
@@ -43,12 +44,12 @@ def _read_json(path: Path) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def _load_digest(args, settings: dict, topic: dict) -> Digest:
+def _load_digest(args, settings: dict, topic: dict, progress=None) -> Digest:
     if args.digest:
         return load_digest(Path(args.digest))
     if args.fake:
         return load_digest(FIXTURE_DIGEST)
-    return collect(topic, settings, window_hours=args.window_hours or None)
+    return collect(topic, settings, window_hours=args.window_hours or None, progress=progress)
 
 
 def _week_rows(rows: list[dict], today: set[str]) -> list[dict]:
@@ -98,16 +99,17 @@ def _load_report(args, digest: Digest, topic: dict, settings: dict, glossary: di
 
 
 def cmd_run(args: argparse.Namespace) -> int:
+    progress = Progress()
     settings = load_settings(Path(args.settings) if args.settings else None)
     topic = load_topic(args.topic, Path(args.topic_config) if args.topic_config else None)
     ensure_dirs(settings)
     glossary = load_glossary()
     if not args.digest and not getattr(args, "fake", False):
+        progress.stage("检查浏览器/CDP")
         cdp_ok, cdp_detail = agent_browser.ensure_cdp(settings)
-        if not cdp_ok:
-            print(f"warning: {cdp_detail}", file=sys.stderr)
+        progress.finish(cdp_detail if cdp_ok else f"警告：{cdp_detail}")
 
-    digest = _load_digest(args, settings, topic)
+    digest = _load_digest(args, settings, topic, progress=progress)
     digest_path = Path(settings["paths"]["state_dir"]) / "runs" / digest.run_id / "digest.json"
     digest_path.parent.mkdir(parents=True, exist_ok=True)
     digest_path.write_text(
@@ -122,7 +124,10 @@ def cmd_run(args: argparse.Namespace) -> int:
             file=sys.stderr,
         )
         return 5
+    progress.stage("生成中文摘要与英文标题翻译（LLM）")
     report, status = _load_report(args, digest, topic, settings, glossary)
+    progress.finish(f"摘要完成：{status}")
+    progress.stage("渲染 Markdown 报告")
     markdown = render_markdown(digest, report, topic)
 
     if args.out:
@@ -137,6 +142,7 @@ def cmd_run(args: argparse.Namespace) -> int:
 
     print(f"report written: {path}")
     print(f"summary status: {status}")
+    progress.finish(f"报告已写入：{path}")
 
     store = Store(Path(settings["paths"]["state_dir"]) / "intel.db", str(topic["id"]))
     try:
@@ -174,6 +180,7 @@ def cmd_run(args: argparse.Namespace) -> int:
                 pass
 
         if args.no_deliver:
+            progress.finish(f"运行结束（未投递），总耗时 {progress.elapsed}")
             return 0 if not status.startswith("degraded") else 2
 
         send_settings = copy.deepcopy(settings)
@@ -182,6 +189,7 @@ def cmd_run(args: argparse.Namespace) -> int:
                 send_settings["delivery"]["wechat"]["enabled"] = False
             if store.delivered(report.report_date, "email"):
                 send_settings["delivery"]["email"]["enabled"] = False
+        progress.stage("投递报告（飞书/微信/邮件）")
         results = deliver(
             markdown,
             digest,
@@ -211,6 +219,7 @@ def cmd_run(args: argparse.Namespace) -> int:
         store.close()
 
     print(json.dumps(results, ensure_ascii=False, indent=2))
+    progress.finish(f"运行结束，总耗时 {progress.elapsed}")
 
     failed = any(not item.get("ok", True) for item in results.values())
     # Feishu primary failing is not a delivery failure if the WeChat fallback worked.
@@ -262,13 +271,15 @@ def cmd_doctor(args: argparse.Namespace) -> int:
 
 
 def cmd_collect(args: argparse.Namespace) -> int:
+    progress = Progress()
     settings = load_settings(Path(args.settings) if args.settings else None)
     topic = load_topic(args.topic, Path(args.topic_config) if args.topic_config else None)
     ensure_dirs(settings)
+    progress.stage("检查浏览器/CDP")
     cdp_ok, cdp_detail = agent_browser.ensure_cdp(settings)
-    if not cdp_ok:
-        print(f"warning: {cdp_detail}", file=sys.stderr)
-    digest = collect(topic, settings, window_hours=args.window_hours or None)
+    progress.finish(cdp_detail if cdp_ok else f"警告：{cdp_detail}")
+    digest = collect(topic, settings, window_hours=args.window_hours or None, progress=progress)
+    progress.finish(f"采集结束，总耗时 {progress.elapsed}")
     if args.out:
         out = Path(args.out)
     else:

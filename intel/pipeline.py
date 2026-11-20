@@ -48,19 +48,53 @@ def _aggregate_health(results: list[SourceResult]) -> list[SourceHealth]:
     return list(grouped.values())
 
 
-def _collect_results(topic: dict, settings: dict, window_hours: int) -> list[SourceResult]:
+def _count_tasks(topic: dict) -> int:
+    queries = topic.get("queries", {})
+    disabled = {str(x) for x in topic.get("disabled_sources", [])}
+    engines = topic.get("engines", {})
+    priority = engines.get("priority") or []
+    total = 0
+    total += sum(len(v or []) for v in (queries.get("google_news") or {}).values())
+    total += sum(len(v or []) for v in (queries.get("bing_news") or {}).values())
+    if "gdelt" in priority and "gdelt" not in disabled:
+        total += len(queries.get("gdelt") or [])
+    total += sum(1 for url in queries.get("rss") or [] if str(url) not in disabled)
+    total += sum(
+        1 for channel in queries.get("telegram_channels") or [] if f"telegram:@{channel}" not in disabled
+    )
+    if "x" in priority and "x" not in disabled:
+        total += len(queries.get("x") or [])
+    yandex_mode = str(engines.get("yandex_mode", "off")).lower()
+    if "yandex" in priority and "yandex" not in disabled and yandex_mode not in ("off", "false", "0", "none", ""):
+        total += sum(len(v or []) for v in (queries.get("yandex") or {}).values())
+    if "brave" in priority and "brave" not in disabled:
+        total += sum(len(v or []) for v in (queries.get("brave") or {}).values())
+    return total
+
+
+def _collect_results(topic: dict, settings: dict, window_hours: int, progress=None) -> list[SourceResult]:
     results: list[SourceResult] = []
     queries = topic.get("queries", {})
     disabled = {str(x) for x in topic.get("disabled_sources", [])}
+    total = _count_tasks(topic)
+    done = 0
+
+    def tick(label: str) -> None:
+        nonlocal done
+        done += 1
+        if progress is not None:
+            progress.step(done, total, label[:52])
 
     for lang, query_list in (queries.get("google_news") or {}).items():
         for query in query_list or []:
             results.append(rss.fetch_google_news(str(query), str(lang), settings, window_hours))
+            tick(f"Google News {lang}: {query}")
             time.sleep(0.8)
 
     for lang, query_list in (queries.get("bing_news") or {}).items():
         for query in query_list or []:
             results.append(rss.fetch_bing_news(str(query), str(lang), settings))
+            tick(f"Bing News {lang}: {query}")
             time.sleep(0.4)
 
     if "gdelt" in (topic.get("engines", {}).get("priority") or []) and "gdelt" not in disabled:
@@ -68,17 +102,20 @@ def _collect_results(topic: dict, settings: dict, window_hours: int) -> list[Sou
 
         for query in queries.get("gdelt") or []:
             results.append(gdelt_source.search(str(query), "ru", settings, window_hours))
+            tick(f"GDELT: {query}")
 
     for url in queries.get("rss") or []:
         if str(url) in disabled:
             continue
         results.append(rss.fetch_generic_rss(str(url), settings, lang=str(topic.get("languages", ["ru"])[0])))
+        tick(f"RSS: {url}")
         time.sleep(0.4)
 
     for channel in queries.get("telegram_channels") or []:
         if f"telegram:@{channel}" in disabled:
             continue
         results.append(telegram.fetch_channel(str(channel), settings))
+        tick(f"Telegram: @{channel}")
         time.sleep(0.6)
 
     engines = topic.get("engines", {})
@@ -89,6 +126,7 @@ def _collect_results(topic: dict, settings: dict, window_hours: int) -> list[Sou
 
         for query in queries.get("x") or []:
             results.append(x_source.search(str(query), settings, window_hours))
+            tick(f"X: {query}")
 
     yandex_mode = str(engines.get("yandex_mode", "off")).lower()
     yandex_enabled = yandex_mode not in ("off", "false", "0", "none", "")
@@ -98,6 +136,7 @@ def _collect_results(topic: dict, settings: dict, window_hours: int) -> list[Sou
         for lang, query_list in (queries.get("yandex") or {}).items():
             for query in query_list or []:
                 results.append(yandex_source.search(str(query), str(lang), settings))
+                tick(f"Yandex {lang}: {query}")
 
     if "brave" in priority and "brave" not in disabled:
         if window_hours <= 48:
@@ -114,6 +153,7 @@ def _collect_results(topic: dict, settings: dict, window_hours: int) -> list[Sou
                 results.append(
                     brave_source.search(str(query), str(lang), settings, country=country, freshness=freshness)
                 )
+                tick(f"Brave {lang}: {query}")
     return results
 
 
@@ -233,7 +273,13 @@ def _build_digest(
     )
 
 
-def collect(topic: dict, settings: dict, *, window_hours: int | None = None) -> Digest:
+def collect(
+    topic: dict,
+    settings: dict,
+    *,
+    window_hours: int | None = None,
+    progress=None,
+) -> Digest:
     window_hours = int(window_hours or (topic.get("window", {}).get("hours") or DEFAULT_WINDOW_HOURS))
     now = datetime.now(timezone.utc)
     start = now - timedelta(hours=window_hours)
@@ -250,10 +296,18 @@ def collect(topic: dict, settings: dict, *, window_hours: int | None = None) -> 
     store = Store(state_db, str(topic.get("id", "topic")))
     store.start_run(run_id, started_at)
     try:
-        results = _collect_results(topic, settings, window_hours)
+        if progress is not None:
+            progress.stage(f"采集（窗口 {window_hours}h，{_count_tasks(topic)} 个查询/信源）")
+        results = _collect_results(topic, settings, window_hours, progress=progress)
+        if progress is not None:
+            raw = sum(len(result.articles) for result in results)
+            progress.finish(f"采集完成：{raw} 条原始结果，开始过滤/聚类")
+            progress.stage("过滤、去重、事件聚类")
         seen = store.seen_urls()
         include_seen = bool(topic.get("window", {}).get("include_seen", False))
         digest = _build_digest(topic, run_id, window, results, seen, include_seen=include_seen)
+        if progress is not None:
+            progress.finish(f"入选 {len(digest.items)} 条，写入状态库")
         for item in digest.items:
             store.record_item(item)
         store.commit()

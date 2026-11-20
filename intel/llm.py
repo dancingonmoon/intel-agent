@@ -77,6 +77,7 @@ def build_prompt(
 ) -> str:
     payload = {
         "topic": {"id": topic.get("id"), "name": topic.get("name")},
+        "focus_players": topic.get("entities", {}).get("focus", []),
         "report_date": digest.window.end[:10],
         "items": _digest_for_prompt(digest),
         "week_items": [
@@ -122,6 +123,11 @@ def build_prompt(
    watchlist.reason）不得出现俄文或其他非中英文字符；人名、公司名、型号用英文
    转写（如 РТК-Сервис→RTK-Service，Константин Савчук→Konstantin Savchuk，
    Информтехника→Informtekhnika）。中文/英文内容保持原样。
+10. 竞争对手优先：focus_players 是本主题的重点跟踪对象，尤其是 Hytera（海能达）
+    以及俄罗斯本地厂商。只要 digest 中有这些公司的技术、产品、合同、市场活动，
+    特别是俄语区的渠道、展会、广告、定价和本地化营销，就必须至少让一条进入
+    对应 section；在 headline_item_ids 或 watchlist 中也应优先体现。只依据
+    digest，不得补写 digest 之外的事实。
 
 术语表：
 {glossary_lines or '（无）'}
